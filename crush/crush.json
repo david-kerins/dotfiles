@@ -1,0 +1,188 @@
+{
+  "$schema": "https://charm.land/crush.json",
+  "options": {
+    "skills_paths": [
+      "~/.config/crush/skills",
+      "~/Developer/forks/anthropic-skills/skills"
+    ],
+    "tui": {
+      "transparent": true
+    },
+    "initialize_as": "AGENTS.md",
+    "attribution": {
+      "trailer_style": "assisted-by",
+      "generated_with": false
+    }
+  },
+  "lsp": {
+    "gopls": {
+      "options": {
+        "gofumpt": true,
+        "codelenses": {
+          "gc_details": true,
+          "generate": true,
+          "run_govulncheck": true,
+          "test": true,
+          "tidy": true,
+          "upgrade_dependency": true
+        },
+        "hints": {
+          "assignVariableTypes": true,
+          "compositeLiteralFields": true,
+          "compositeLiteralTypes": true,
+          "constantValues": true,
+          "functionTypeParameters": true,
+          "parameterNames": true,
+          "rangeVariableTypes": true
+        },
+        "analyses": {
+          "nilness": true,
+          "unusedparams": true,
+          "unusedvariable": true,
+          "unusedwrite": true,
+          "useany": true
+        },
+        "staticcheck": true,
+        "directoryFilters": [
+          "-.git",
+          "-node_modules"
+        ],
+        "semanticTokens": true
+      }
+    }
+  },
+  "mcp": {
+    "linear": {
+      "type": "http",
+      "url": "https://mcp.linear.app/mcp",
+      "disabled_tools": [
+        "create_comment",
+        "create_issue",
+        "create_issue_label",
+        "create_project",
+        "create_document",
+        "update_document",
+        "get_document",
+        "get_issue_status",
+        "get_project",
+        "get_team",
+        "get_user",
+        "list_documents",
+        "list_issue_labels",
+        "list_issue_statuses",
+        "list_issues",
+        "list_project_labels",
+        "list_projects",
+        "list_teams",
+        "list_users",
+        "search_documentation",
+        "update_issue",
+        "update_project"
+      ],
+      "headers": {
+        "Authorization": "$(echo Bearer $LINEAR_API_KEY)"
+      }
+    },
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "timeout": 30,
+      "headers": {
+        "X-MCP-Tools": "get_file_contents,pull_request_read,get_commit,get_me,issue_read",
+        "Authorization": "$(echo Bearer $GITHUB_TOKEN)"
+      }
+    },
+    "context7": {
+      "type": "http",
+      "timeout": 30,
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "goreleaser": {
+      "type": "stdio",
+      "command": "goreleaser-mcp"
+    }
+  },
+  "permissions": {
+    "allowed_tools": [
+      "agentic_fetch",
+      "mcp_linear_get_issue",
+      "mcp_github_get_issue",
+      "mcp_github_get_issue_comments",
+      "mcp_goreleaser_check",
+      "lsp_references",
+      "lsp_diagnostics",
+      "sourcegraph",
+      "read_mcp_resource",
+      "multiedit",
+      "view",
+      "ls",
+      "grep",
+      "fetch",
+      "write",
+      "edit"
+    ]
+  },
+  "default_provider": "lmstudio",
+  "providers": {
+    "openrouter": {
+      "api_key": "sk-123"
+    },
+    "ollama": {
+      "name": "Ollama",
+      "base_url": "http://localhost:11434/v1/",
+      "type": "openai",
+      "api_key": "ollama",
+      "models": [
+        {
+          "name": "gpt-oss-20b",
+          "id": "gpt-oss:20b",
+          "context_window": 131072,
+          "default_max_tokens": 20000
+        }
+      ]
+    },
+    "lmstudio": {
+      "name": "LM Studio",
+      "base_url": "http://localhost:1234/v1/",
+      "api_key": "lmstudio",
+      "type": "openai",
+      "models": [
+        {
+          "name": "deepseek-coder-v2-lite-instruct",
+          "id": "deepseek-coder-v2-lite-instruct",
+          "context_window": 163840,
+          "default_max_tokens": 18000
+        },
+        {
+          "name": "qwen2.5-coder-32b-instruct-mlx",
+          "id": "gqwen2.5-coder-32b-instruct-mlx",
+          "context_window": 18000,
+          "default_max_tokens": 18000
+        },
+        {
+          "name": "google/gemma-3-12b",
+          "id": "google/gemma-3-12b",
+          "context_window": 8000,
+          "default_max_tokens": 8000
+        },
+        {
+          "name": "gemma-4-26b-a4b-it-mlx",
+          "id": "gemma-4-26b-a4b-it-mlx",
+          "context_window": 8000,
+          "default_max_tokens": 8000
+        }
+      ]
+    }
+  },
+  "models": {
+    "large": {
+      "model": "gpt-oss:20b",
+      "provider": "ollama"
+    },
+    "small": {
+      "model": "gemma4",
+      "provider": "lmstudio",
+      "max_tokens": 4096
+    }
+  }
+}
