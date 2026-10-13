@@ -142,7 +142,7 @@ vim.g.maplocalleader = " "
 keymap("n", "<leader>n", ":enew<CR>", opts)
 
 -- quicklists
-keymap("n", "<leader>co", ":copen<CR>", opts)
+keymap("n", "<leader>co", ":copen<CR>", { desc = "Open Quickfix" })
 keymap("n", "<leader>cc", ":cclose<CR>", opts)
 
 -- write, buffer killing
@@ -291,6 +291,7 @@ require("catppuccin").setup({
   },
 })
 vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin-latte")
 
 -- Use undercurl for diagnostic underlines
 local function hi_diag_underline(level)

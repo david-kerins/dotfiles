@@ -1,0 +1,24 @@
+# Configure your local llama.cpp server
+provider add llamacpp \
+  --name "llamacpp" \
+  --type "openai" \
+  --base-url "http://llamacpp:9931/v1"
+
+# Register the specific model you want to default to
+model add "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS" \
+  --name "Qwen 3.8 Local" \
+  --context-window 65536
+
+
+# Point Crush's primary logic loop to your local server
+model large "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS"
+
+# Point the background title/summary tasks to your local server too
+model small "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS"
+
+# Force crush to use your local model as the primary driver
+#set model "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS"
+
+# Route title generation and summary tasks to your local provider as well
+#set title-model "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS"
+#set summary-model "llamacpp/unsloth/Qwen3.8-27B-GGUF:UD-IQ4_XS"
